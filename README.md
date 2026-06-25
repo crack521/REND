@@ -5,18 +5,17 @@ This repository provides the reference implementation of **REND** and the interp
 > **Goodhart's trap in cost-constrained network dismantling and its remedy.**
 > Changjun Fan, Feng Qing, Li Zeng, Suoyi Tan, Aming Li, Xin Lu, Jincai Huang, Zhong Liu.
 
-![REND framework](./paper/REND_framework.svg)
+![REND framework](./paper/REND_framework.jpg)
 
 ## Contents
 
 - [Overview](#overview)
 - [Repository Structure](#repository-structure)
+- [Data and Results (Zenodo)](#data-and-results-zenodo)
 - [System Requirements](#system-requirements)
 - [Installation Guide](#installation-guide)
 - [Usage](#usage)
 - [Baseline Methods](#baseline-methods)
-- [Results](#results)
-- [Data and Code Availability](#data-and-code-availability)
 - [Citation](#citation)
 
 ## Overview
@@ -62,14 +61,10 @@ FINDER_ND_cost/
 │   ├── solReal_BoundaryCut.py  # Generate Boundary-Cut solutions on real networks
 │   ├── testReal.py             # Evaluate (RGCC-ANC score) all methods on real networks
 │   └── testSynthetic.py        # Evaluate REND on synthetic BA graphs
-├── data/
-│   ├── real/                   # Real-world networks + uniform/degree/random cost weights
-│   └── synthetic/              # BA graphs for degree_cost / random_cost scenarios
 ├── models/                     # Pre-trained REND model (REND.ckpt)
-├── results/
-│   ├── real/                   # Per-method results (REND, boundarycut, GND, HDA, ...)
-│   └── synthetic/              # Synthetic-network score tables
 ├── paper/                      # Manuscript and framework figure
+├── data/                       # <-- NOT in git; download from Zenodo (see below)
+├── results/                    # <-- NOT in git; download from Zenodo (see below)
 ├── requirements.txt
 └── README.md
 ```
@@ -77,6 +72,53 @@ FINDER_ND_cost/
 > **Note.** All code and the C++ sources live under `code/`. Scripts are intended to be run
 > from inside `code/`; they reference the data, model and result folders one level up
 > (`../data`, `../models`, `../results`).
+
+## Data and Results (Zenodo)
+
+To keep the repository lightweight, the large `data/` (real-world and synthetic networks
+with their cost-weight files) and `results/` (per-method dismantling solutions and scores)
+directories are **not** stored in git. They are archived on Zenodo as a single compressed
+file **`data&results.zip`** (≈ 2.0 GB):
+
+- **Zenodo record:** https://zenodo.org/records/20841196
+- **DOI:** [10.5281/zenodo.20841196](https://doi.org/10.5281/zenodo.20841196)
+
+You must download and extract this archive into the **project root** (the same folder that
+contains `code/`) before running any data/result-dependent script. The archive unpacks into
+the two top-level directories `data/` and `results/`.
+
+```bash
+# Run from the project root (the directory that contains code/, models/, paper/)
+cd /path/to/FINDER_ND_cost
+
+# 1) Download. The file name contains '&', so the URL is quoted.
+wget -O "data&results.zip" "https://zenodo.org/records/20841196/files/data&results.zip?download=1"
+#   (or with curl)
+# curl -L -o "data&results.zip" "https://zenodo.org/records/20841196/files/data&results.zip?download=1"
+
+# 2) Extract; this restores ./data/ and ./results/ in place.
+unzip "data&results.zip"
+
+# 3) (optional) Remove the archive once extraction succeeds.
+rm "data&results.zip"
+```
+
+After extraction the project layout should look like:
+
+```
+FINDER_ND_cost/
+├── code/
+├── data/        # restored from Zenodo  (real/ and synthetic/)
+├── results/     # restored from Zenodo  (real/ and synthetic/)
+├── models/
+└── paper/
+```
+
+> **Important.** Make sure `data/` and `results/` end up directly under the project root
+> (next to `code/`). If your unzip tool places them inside an extra sub-folder (e.g.
+> `data&results/data`), move them up one level so the paths resolve as `../data` and
+> `../results` relative to `code/`. Each real network in `data/real/` ships with `uniform`,
+> `degree` and `random` cost-weight files.
 
 ## System Requirements
 
@@ -107,12 +149,12 @@ Tested on **Linux (Ubuntu 22.04 LTS)**.
 The experiments in this repository were run on a **server with a single GPU**. The exact
 configuration used was:
 
-| Component | Specification                                    |
-| --------- | ------------------------------------------------ |
-| GPU       | 1 × NVIDIA GeForce RTX 4090 (24 GB)              |
-| CPU       | x86-64, 8+ cores                                 |
-| RAM       | 32+ GB                                           |
-| CUDA      | Compatible driver for the installed TensorFlow   |
+| Component | Specification                                  |
+| --------- | ---------------------------------------------- |
+| GPU       | 1 × NVIDIA GeForce RTX 4090 (24 GB)            |
+| CPU       | x86-64, 8+ cores                               |
+| RAM       | 32+ GB                                         |
+| CUDA      | Compatible driver for the installed TensorFlow |
 
 Only **one GPU** is needed. Training uses the GPU; evaluation is light-weight and runs on
 the CPU. The REND model is compact, so 24 GB of GPU memory is far more than sufficient and a
@@ -139,7 +181,8 @@ This produces the `*.so` extension modules next to their `*.pyx`/`*.pxd` definit
 
 ## Usage
 
-All commands are run from inside the `code/` directory.
+First download the data and results from [Zenodo](#data-and-results-zenodo). All commands
+below are run from inside the `code/` directory.
 
 ### 1. Train the model (GPU)
 
@@ -189,47 +232,31 @@ random-cost, writing the summaries to `../results/synthetic`.
 
 ## Baseline Methods
 
-REND and Boundary-Cut are compared against state-of-the-art cost-aware and structural
-dismantling baselines:
+REND and Boundary-Cut are compared against the following state-of-the-art cost-aware and
+structural dismantling baselines.
 
-| Method            | Type                                   |
-| ----------------- | -------------------------------------- |
-| HDA               | Adaptive high-degree                   |
-| CoreHD            | k-core based                           |
-| MinSum            | Message passing                        |
-| BPD               | Belief-propagation decimation          |
-| CI                | Collective Influence                   |
-| GND               | Generalized Network Dismantling        |
-| GDM               | Graph-neural-network dismantling       |
-| FINDER            | Prior deep-RL model (GCC-optimized)    |
-| **REND**          | Deep-RL model (RGCC-optimized, ours)   |
-| **Boundary-Cut**  | Interpretable heuristic (ours)         |
+| Method           | Reference                                                                                                                              |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| HDA              | Holme, P., Kim, B. J., Yoon, C. N. & Han, S. K. Attack vulnerability of complex networks. *Phys. Rev. E* **65**, 056109 (2002).         |
+| CoreHD           | Zdeborová, L., Zhang, P. & Zhou, H.-J. Fast and simple decycling and dismantling of networks. *Sci. Rep.* **6**, 37954 (2016).          |
+| MinSum           | Braunstein, A., Dall'Asta, L., Semerjian, G. & Zdeborová, L. Network dismantling. *Proc. Natl Acad. Sci. USA* **113**, 12368–12373 (2016). |
+| BPD              | Mugisha, S. & Zhou, H.-J. Identifying optimal targets of network attack by belief propagation. *Phys. Rev. E* **94**, 012305 (2016).    |
+| CI               | Morone, F. & Makse, H. A. Influence maximization in complex networks through optimal percolation. *Nature* **524**, 65–68 (2015).       |
+| GND              | Ren, X.-L., Gleinig, N., Helbing, D. & Antulov-Fantulin, N. Generalized network dismantling. *Proc. Natl Acad. Sci. USA* **116**, 6554–6559 (2019). |
+| GDM              | Grassia, M., De Domenico, M. & Mangioni, G. Machine learning dismantling and early-warning signals of disintegration in complex systems. *Nat. Commun.* **12**, 5190 (2021). |
+| FINDER           | Fan, C., Zeng, L., Sun, Y. & Liu, Y.-Y. Finding key players in complex networks through deep reinforcement learning. *Nat. Mach. Intell.* **2**, 317–324 (2020). |
+| **REND**         | This work.                                                                                                                             |
+| **Boundary-Cut** | This work.                                                                                                                             |
 
-External baseline references:
+Reference implementations used for the external baselines:
 
 ```
-https://github.com/zhfkt/ComplexCi                                  (CI)
-https://github.com/abraunst/decycler                                (MinSum)
-http://power.itp.ac.cn/~zhouhj/codes.html                           (BPD)
-https://github.com/hcmidt/corehd                                    (CoreHD)
-https://github.com/renxiaolong/Generalized-Network-Dismantling     (GND)
+https://github.com/zhfkt/ComplexCi                                 (CI)
+https://github.com/abraunst/decycler                               (MinSum)
+http://power.itp.ac.cn/~zhouhj/codes.html                          (BPD)
+https://github.com/hcmidt/corehd                                   (CoreHD)
+https://github.com/renxiaolong/Generalized-Network-Dismantling    (GND)
 ```
-
-## Results
-
-Pre-computed results are provided under [`results/`](./results):
-
-- `results/real/<method>/{uniform,degree,random}_cost/` — per-method, per-cost results on
-  the nine real-world networks (criminal, biological, communication, infrastructure and
-  social networks).
-- `results/synthetic/` — score tables for the synthetic BA benchmarks.
-
-## Data and Code Availability
-
-Real-world networks (collected from public repositories such as SNAP) and the synthetic BA
-graphs used in the paper are provided under [`data/`](./data). Each real network ships with
-`uniform`, `degree` and `random` cost-weight files. The pre-trained model is in
-[`models/`](./models).
 
 ## Citation
 
