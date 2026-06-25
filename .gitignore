@@ -1,0 +1,13 @@
+# Large raw datasets and result files are hosted externally (Zenodo), not in git
+data/
+results/
+
+# Python / build artifacts
+__pycache__/
+*.pyc
+build/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
