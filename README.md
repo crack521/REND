@@ -34,22 +34,18 @@ To close this trap we make three contributions:
    the static denominator `N` with the dynamic number of remaining nodes `N − k`. RGCC
    explicitly penalizes excessive removal and distinguishes fragmentation from shrinkage.
 2. **REND** — a deep reinforcement learning agent trained purely on small synthetic graphs
-   to maximize the RGCC-based reward (optimized through a stable lower bound `R_lb`). On
-   real-world networks REND removes **50–70% fewer nodes** yet generates **3–6× more
-   fragments** than existing methods.
+   to maximize the RGCC-based reward (optimized through a stable lower bound `R_lb`).
 3. **Boundary-Cut** — an interpretable, training-free heuristic distilled from REND's
    learned policy. It iteratively removes *2-core boundary nodes* (nodes in the 2-core with
    at least one neighbour in the 1-shell) in descending order of a cost-effectiveness ratio,
    and matches the black-box model's performance with zero training.
 
-The framework supports three cost scenarios for every network: **uniform-cost**,
-**degree-cost** (cost proportional to node degree), and **random-cost** (random non-negative
-weights).
+The framework supports at least two cost scenarios for every network: **degree-cost** (cost proportional to node degree), and **random-cost** (random non-negative weights).
 
 ## Repository Structure
 
 ```
-FINDER_ND_cost/
+REND/
 ├── code/                       # All source code (Cython extensions + Python drivers)
 │   ├── lib/                    # C++ sources for the Cython extensions
 │   ├── *.pyx / *.pxd / *.so    # Cython bindings (graph, mvc_env, utils, boundary_cut, ...)
@@ -89,7 +85,7 @@ the two top-level directories `data/` and `results/`.
 
 ```bash
 # Run from the project root (the directory that contains code/, models/, paper/)
-cd /path/to/FINDER_ND_cost
+cd /path/to/REND
 
 # 1) Download. The file name contains '&', so the URL is quoted.
 wget -O "data&results.zip" "https://zenodo.org/records/20841196/files/data&results.zip?download=1"
@@ -106,7 +102,7 @@ rm "data&results.zip"
 After extraction the project layout should look like:
 
 ```
-FINDER_ND_cost/
+REND/
 ├── code/
 ├── data/        # restored from Zenodo  (real/ and synthetic/)
 ├── results/     # restored from Zenodo  (real/ and synthetic/)
@@ -255,7 +251,9 @@ https://github.com/zhfkt/ComplexCi                                 (CI)
 https://github.com/abraunst/decycler                               (MinSum)
 http://power.itp.ac.cn/~zhouhj/codes.html                          (BPD)
 https://github.com/hcmidt/corehd                                   (CoreHD)
-https://github.com/renxiaolong/Generalized-Network-Dismantling    (GND)
+https://github.com/renxiaolong/Generalized-Network-Dismantling     (GND)
+https://github.com/NetworkScienceLab/GDM                           (GDM)
+https://github.com/FFrankyy/FINDER                                 (FINDER、HDA)
 ```
 
 ## Citation
