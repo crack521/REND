@@ -76,8 +76,8 @@ with their cost-weight files) and `results/` (per-method dismantling solutions a
 directories are **not** stored in git. They are archived on Zenodo as a single compressed
 file **`data&results.zip`** (≈ 2.0 GB):
 
-- **Zenodo record:** https://zenodo.org/records/20841196
-- **DOI:** [10.5281/zenodo.20841196](https://doi.org/10.5281/zenodo.20841196)
+- **Zenodo record:** https://zenodo.org/records/22015427
+- **DOI:** [10.5281/zenodo.22015427](https://doi.org/10.5281/zenodo.22015427)
 
 You must download and extract this archive into the **project root** (the same folder that
 contains `code/`) before running any data/result-dependent script. The archive unpacks into
