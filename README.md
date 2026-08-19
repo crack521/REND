@@ -2,8 +2,8 @@
 
 This repository provides the reference implementation of **REND** and the interpretable **Boundary-Cut** heuristic, as described in our paper:
 
-> **Goodhart's trap in cost-constrained network dismantling and its remedy.**
-> Changjun Fan, Feng Qing, Li Zeng, Suoyi Tan, Aming Li, Xin Lu, Jincai Huang, Zhong Liu.
+> **Mitigating the measurement problem for cost-constrained network dismantling with deep reinforcement learning.**
+> Changjun Fan, Feng Qing, Li Zeng, Aming Li, Suoyi Tan, Xin Lu, Jincai Huang, Zhong Liu.
 
 ![REND framework](./paper/REND_framework.jpg)
 
@@ -261,23 +261,9 @@ https://github.com/FFrankyy/FINDER                                 (FINDER、HDA
 If you find this code or paper useful, please cite our work:
 
 ```bibtex
-@article{fan2026goodhart,
-  title   = {Goodhart's trap in cost-constrained network dismantling and its remedy},
-  author  = {Fan, Changjun and Qing, Feng and Zeng, Li and Tan, Suoyi and Li, Aming and Lu, Xin and Huang, Jincai and Liu, Zhong},
+@article{fan2026Mitigating,
+  title   = {Mitigating the measurement problem for cost-constrained network dismantling with deep reinforcement learning},
+  author  = {Fan, Changjun and Qing, Feng and Zeng, Li and Li, Aming and Tan, Suoyi and Lu, Xin and Huang, Jincai and Liu, Zhong},
   year    = {2026}
-}
-```
-
-This work builds on FINDER:
-
-```bibtex
-@article{fan2020finding,
-  title     = {Finding key players in complex networks through deep reinforcement learning},
-  author    = {Fan, Changjun and Zeng, Li and Sun, Yizhou and Liu, Yang-Yu},
-  journal   = {Nature Machine Intelligence},
-  volume    = {2},
-  pages     = {317--324},
-  year      = {2020},
-  publisher = {Nature Publishing Group}
 }
 ```
