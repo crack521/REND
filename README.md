@@ -23,7 +23,7 @@ This repository provides the reference implementation of **REND** and the interp
 Cost-constrained network dismantling seeks an optimal set of nodes to remove so that a
 network is fragmented under **heterogeneous removal costs**. We show that the conventional
 metric — the Accumulated Normalized Connectivity (ANC) defined on the absolute Giant
-Connected Component (GCC) size — falls into a **Goodhart's law trap**: because it rewards
+Connected Component (GCC) size — falls into a measurement problem: because it rewards
 any reduction in GCC size regardless of how many nodes are removed, a powerful optimizer
 learns to harvest large numbers of cheap peripheral nodes (*trivial shrinkage*) instead of
 attacking genuinely critical nodes (*structural fragmentation*).
