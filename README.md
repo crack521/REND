@@ -59,8 +59,8 @@ REND/
 │   └── testSynthetic.py        # Evaluate REND on synthetic BA graphs
 ├── models/                     # Pre-trained REND model (REND.ckpt)
 ├── paper/                      # Manuscript and framework figure
-├── data/                       # <-- NOT in git; download from CodeOcean (see below)
-├── results/                    # <-- NOT in git; download from CodeOcean (see below)
+├── data/                       # <-- NOT in git; available on CodeOcean (see below)
+├── results/                    # <-- NOT in git; available on CodeOcean (see below)
 ├── requirements.txt
 └── README.md
 ```
@@ -71,38 +71,22 @@ REND/
 
 ## Data and Results (CodeOcean)
 
-To keep the repository lightweight, the large `data/` (real-world and synthetic networks with their cost-weight files) and `results/` (per-method dismantling solutions and scores) directories are **not** stored in git. They are archived on CodeOcean as a single compressed file **`data&results.zip`** (≈ 2.0 GB):
+The `data/` (real-world and synthetic networks with their cost-weight files) and `results/` (per-method dismantling solutions and scores) directories are **not** stored in this git repository. They are available directly within the CodeOcean capsule:
 
 - **CodeOcean Capsule:** [https://codeocean.com/capsule/4458609](https://codeocean.com/capsule/4458609)
 
-You must download the `data&results.zip` file from the above CodeOcean capsule and extract it into the **project root** (the same folder that contains `code/`) before running any data/result-dependent script. The archive unpacks into the two top-level directories `data/` and `results/`.
+The capsule contains the complete project environment, including:
+- `data/` — all network datasets and cost-weight files
+- `results/` — pre-computed dismantling solutions and evaluation scores for all methods
+- `models/` — pre-trained REND model checkpoint
 
-```bash
-# Run from the project root (the directory that contains code/, models/, paper/)
-cd /path/to/REND
+To run the code, simply execute it within the CodeOcean capsule environment, where all data and results are pre-populated and ready to use. No additional download or extraction steps are required.
 
-# 1) Download the file manually from the CodeOcean capsule link above.
-#    (Automatic download with wget/curl is not possible due to access restrictions.)
+If you wish to run the code locally, you will need to:
+1. Download the `data/` and `results/` directories from the CodeOcean capsule (via the capsule's file browser).
+2. Place them in the project root directory (next to `code/`).
 
-# 2) Extract; this restores ./data/ and ./results/ in place.
-unzip "data&results.zip"
-
-# 3) (optional) Remove the archive once extraction succeeds.
-rm "data&results.zip"
-```
-
-After extraction the project layout should look like:
-
-```
-REND/
-├── code/
-├── data/        # restored from CodeOcean  (real/ and synthetic/)
-├── results/     # restored from CodeOcean  (real/ and synthetic/)
-├── models/
-└── paper/
-```
-
-> **Important.** Make sure `data/` and `results/` end up directly under the project root (next to `code/`). If your unzip tool places them inside an extra sub-folder (e.g. `data&results/data`), move them up one level so the paths resolve as `../data` and `../results` relative to `code/`. Each real network in `data/real/` ships with `uniform`, `degree` and `random` cost-weight files.
+Each real network in `data/real/` ships with `uniform`, `degree` and `random` cost-weight files.
 
 ## System Requirements
 
@@ -165,8 +149,7 @@ This produces the `*.so` extension modules next to their `*.pyx`/`*.pxd` definit
 
 ## Usage
 
-First download the data and results from [CodeOcean](#data-and-results-codeocean). All commands
-below are run from inside the `code/` directory.
+If running on CodeOcean, the data and results are already pre-populated. For local execution, first ensure the `data/` and `results/` directories are placed in the project root. All commands below are run from inside the `code/` directory.
 
 ### 1. Train the model (GPU)
 
