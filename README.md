@@ -11,7 +11,7 @@ This repository provides the reference implementation of **REND** and the interp
 
 - [Overview](#overview)
 - [Repository Structure](#repository-structure)
-- [Data and Results (Zenodo)](#data-and-results-zenodo)
+- [Data and Results (CodeOcean)](#data-and-results-codeocean)
 - [System Requirements](#system-requirements)
 - [Installation Guide](#installation-guide)
 - [Usage](#usage)
@@ -59,8 +59,8 @@ REND/
 │   └── testSynthetic.py        # Evaluate REND on synthetic BA graphs
 ├── models/                     # Pre-trained REND model (REND.ckpt)
 ├── paper/                      # Manuscript and framework figure
-├── data/                       # <-- NOT in git; download from Zenodo (see below)
-├── results/                    # <-- NOT in git; download from Zenodo (see below)
+├── data/                       # <-- NOT in git; download from CodeOcean (see below)
+├── results/                    # <-- NOT in git; download from CodeOcean (see below)
 ├── requirements.txt
 └── README.md
 ```
@@ -69,28 +69,20 @@ REND/
 > from inside `code/`; they reference the data, model and result folders one level up
 > (`../data`, `../models`, `../results`).
 
-## Data and Results (Zenodo)
+## Data and Results (CodeOcean)
 
-To keep the repository lightweight, the large `data/` (real-world and synthetic networks
-with their cost-weight files) and `results/` (per-method dismantling solutions and scores)
-directories are **not** stored in git. They are archived on Zenodo as a single compressed
-file **`data&results.zip`** (≈ 2.0 GB):
+To keep the repository lightweight, the large `data/` (real-world and synthetic networks with their cost-weight files) and `results/` (per-method dismantling solutions and scores) directories are **not** stored in git. They are archived on CodeOcean as a single compressed file **`data&results.zip`** (≈ 2.0 GB):
 
-- **Zenodo record:** https://zenodo.org/records/22015427
-- **DOI:** [10.5281/zenodo.22015427](https://doi.org/10.5281/zenodo.22015427)
+- **CodeOcean Capsule:** [https://codeocean.com/capsule/4458609](https://codeocean.com/capsule/4458609)
 
-You must download and extract this archive into the **project root** (the same folder that
-contains `code/`) before running any data/result-dependent script. The archive unpacks into
-the two top-level directories `data/` and `results/`.
+You must download the `data&results.zip` file from the above CodeOcean capsule and extract it into the **project root** (the same folder that contains `code/`) before running any data/result-dependent script. The archive unpacks into the two top-level directories `data/` and `results/`.
 
 ```bash
 # Run from the project root (the directory that contains code/, models/, paper/)
 cd /path/to/REND
 
-# 1) Download. The file name contains '&', so the URL is quoted.
-wget -O "data&results.zip" "https://zenodo.org/records/20841196/files/data&results.zip?download=1"
-#   (or with curl)
-# curl -L -o "data&results.zip" "https://zenodo.org/records/20841196/files/data&results.zip?download=1"
+# 1) Download the file manually from the CodeOcean capsule link above.
+#    (Automatic download with wget/curl is not possible due to access restrictions.)
 
 # 2) Extract; this restores ./data/ and ./results/ in place.
 unzip "data&results.zip"
@@ -104,17 +96,13 @@ After extraction the project layout should look like:
 ```
 REND/
 ├── code/
-├── data/        # restored from Zenodo  (real/ and synthetic/)
-├── results/     # restored from Zenodo  (real/ and synthetic/)
+├── data/        # restored from CodeOcean  (real/ and synthetic/)
+├── results/     # restored from CodeOcean  (real/ and synthetic/)
 ├── models/
 └── paper/
 ```
 
-> **Important.** Make sure `data/` and `results/` end up directly under the project root
-> (next to `code/`). If your unzip tool places them inside an extra sub-folder (e.g.
-> `data&results/data`), move them up one level so the paths resolve as `../data` and
-> `../results` relative to `code/`. Each real network in `data/real/` ships with `uniform`,
-> `degree` and `random` cost-weight files.
+> **Important.** Make sure `data/` and `results/` end up directly under the project root (next to `code/`). If your unzip tool places them inside an extra sub-folder (e.g. `data&results/data`), move them up one level so the paths resolve as `../data` and `../results` relative to `code/`. Each real network in `data/real/` ships with `uniform`, `degree` and `random` cost-weight files.
 
 ## System Requirements
 
@@ -177,7 +165,7 @@ This produces the `*.so` extension modules next to their `*.pyx`/`*.pxd` definit
 
 ## Usage
 
-First download the data and results from [Zenodo](#data-and-results-zenodo). All commands
+First download the data and results from [CodeOcean](#data-and-results-codeocean). All commands
 below are run from inside the `code/` directory.
 
 ### 1. Train the model (GPU)
